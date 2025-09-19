@@ -1,0 +1,54 @@
+.system-map-container {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.legend {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.legend-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.legend-box.core { background: #27AE60; }
+.legend-box.ai { background: #9b5de5; }
+.legend-box.database { background: #4A90E2; }
+
+.architecture-svg {
+  width: 100%;
+  height: 500px;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.node-circle {
+  transition: transform 0.2s;
+}
+
+.node-circle:hover {
+  transform: scale(1.1);
+}
+
+.node-details {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: white;
+  border: 2px solid #9b5de5;
+  padding: 1rem;
+  border-radius: 8px;
+  max-width: 300px;
+}
