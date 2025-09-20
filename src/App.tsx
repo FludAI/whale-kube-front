@@ -8,6 +8,8 @@ interface ClusterForm {
   numNodes: number;
   minNodes: number;
   maxNodes: number;
+  machineType: string;
+  enableAutoscaling: boolean;
 }
 
 interface StatusState {
@@ -33,7 +35,9 @@ function App() {
     region: "us-central1-a",
     numNodes: 4,
     minNodes: 3,
-    maxNodes: 10
+    maxNodes: 10,
+    machineType: "e2-medium",
+    enableAutoscaling: true
   });
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
@@ -195,6 +199,18 @@ function App() {
                     />
                   </div>
                   <div>
+                    <label>Machine Type</label>
+                    <select
+                      value={form.machineType}
+                      onChange={e => setForm({...form, machineType: e.target.value})}
+                    >
+                      <option value="e2-medium">e2-medium (2 vCPU, 4GB)</option>
+                      <option value="e2-standard-4">e2-standard-4 (4 vCPU, 16GB)</option>
+                      <option value="n1-standard-2">n1-standard-2 (2 vCPU, 7.5GB)</option>
+                      <option value="n1-standard-4">n1-standard-4 (4 vCPU, 15GB)</option>
+                    </select>
+                  </div>
+                  <div>
                     <label>Initial Nodes</label>
                     <input 
                       type="number"
@@ -202,14 +218,36 @@ function App() {
                       onChange={e => setForm({...form, numNodes: parseInt(e.target.value) || 0})}
                     />
                   </div>
-                  <div>
-                    <label>Min Nodes</label>
-                    <input 
-                      type="number"
-                      value={form.minNodes}
-                      onChange={e => setForm({...form, minNodes: parseInt(e.target.value) || 0})}
-                    />
+                  <div className="checkbox-wrapper">
+                    <label className="checkbox-label">
+                      <input
+                        type="checkbox"
+                        checked={form.enableAutoscaling}
+                        onChange={e => setForm({...form, enableAutoscaling: e.target.checked})}
+                      />
+                      <span>Enable Autoscaling</span>
+                    </label>
                   </div>
+                  {form.enableAutoscaling && (
+                    <>
+                      <div>
+                        <label>Min Nodes</label>
+                        <input 
+                          type="number"
+                          value={form.minNodes}
+                          onChange={e => setForm({...form, minNodes: parseInt(e.target.value) || 0})}
+                        />
+                      </div>
+                      <div>
+                        <label>Max Nodes</label>
+                        <input 
+                          type="number"
+                          value={form.maxNodes}
+                          onChange={e => setForm({...form, maxNodes: parseInt(e.target.value) || 0})}
+                        />
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
 
