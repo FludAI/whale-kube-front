@@ -28,6 +28,12 @@ interface ChatMessage {
   timestamp: Date;
 }
 
+interface AuthStatus {
+  authenticated: boolean;
+  projectId: string;
+  credentialsType: string;
+}
+
 function App() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'system-map'>('dashboard');
   const [form, setForm] = useState<ClusterForm>({
@@ -46,7 +52,16 @@ function App() {
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [chatInput, setChatInput] = useState("");
   const [showGeminiChat, setShowGeminiChat] = useState(false);
+  const [authStatus, setAuthStatus] = useState<AuthStatus | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
+
+  // Check auth status on mount
+  useEffect(() => {
+    fetch('http://localhost:4000/api/auth-status')
+      .then(res => res.json())
+      .then(data => setAuthStatus(data))
+      .catch(err => console.error('Auth check failed:', err));
+  }, []);
 
   // Timer management
   const startTimer = (operation: string) => {
@@ -247,6 +262,24 @@ function App() {
                         />
                       </div>
                     </>
+                  )}
+                  
+                  {authStatus && (
+                    <div className="auth-status">
+                      <label>Authentication Status</label>
+                      <div className="auth-display">
+                        <span className={`status-indicator ${authStatus.authenticated ? 'active' : 'inactive'}`}>●</span>
+                        <span>{authStatus.authenticated ? 'Authenticated' : 'Not Authenticated'}</span>
+                        {authStatus.authenticated && (
+                          <>
+                            <span className="divider">|</span>
+                            <span>Project: {authStatus.projectId}</span>
+                            <span className="divider">|</span>
+                            <span>Type: {authStatus.credentialsType}</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>

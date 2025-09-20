@@ -367,3 +367,38 @@ select {
     grid-column: span 1;
   }
 }
+
+/* Add to existing App.css */
+
+.auth-status {
+  grid-column: span 2;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.auth-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+  font-size: 0.875rem;
+}
+
+.status-indicator {
+  font-size: 0.75rem;
+}
+
+.status-indicator.active {
+  color: #27AE60;
+}
+
+.status-indicator.inactive {
+  color: #E74C3C;
+}
+
+.divider {
+  color: #ccc;
+}
